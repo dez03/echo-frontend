@@ -1,6 +1,10 @@
 'use client';
-
 import { useState } from 'react';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '@/utils/firebase';
+import { updateProfile } from 'firebase/auth';
+import { handleFirstUpload } from '@/lib/routes';
+import { useRouter } from 'next/navigation';
 
 export default function SignUpPage() {
     const [formData, setFormData] = useState({
@@ -9,14 +13,48 @@ export default function SignUpPage() {
         password: '',
     });
 
+    const router = useRouter();
+
+    const [
+        createUserWithEmailAndPassword,
+        userCredential,
+        loading,
+        error,
+      ] = useCreateUserWithEmailAndPassword(auth);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        try {
+            const { name, email, password } = formData;
+            const userCredential = await createUserWithEmailAndPassword(email, password);
+  
+            if (auth.currentUser) {
+                await updateProfile(auth.currentUser, {
+                    displayName: name,
+                });
+            
+                // Pull pre-signup data from localStorage
+                const saved = JSON.parse(localStorage.getItem('preSignUpData'));
+                if (saved?.entry && saved?.mood && saved?.reflection) {
+                    await handleFirstUpload(auth.currentUser, saved.entry, saved.mood, saved.reflection);
+                    localStorage.removeItem('preSignUpData'); // optional cleanup
+                }
+                console.log('User Info:', {
+                    name: auth.currentUser.displayName,
+                    email: auth.currentUser.email,
+                    uid: auth.currentUser.uid,
+                })
+            }
+            console.log('User created:', userCredential.user);
+            router.push('/');
+        } catch (e) {
+            console.error('Error creating user:', e);
+        }
     };
 
     return (

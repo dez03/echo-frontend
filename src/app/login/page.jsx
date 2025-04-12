@@ -1,16 +1,26 @@
 'use client';
-
 import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/utils/firebase';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Email:', email);
-        console.log('Password:', password);
-        // Add your login logic here
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            console.log('Logged in as:', user.uid);
+            localStorage.setItem('displayName', user.displayName || '');
+            router.push('/dashboard');
+        } catch (error) {
+            console.error('Login failed:', error.message);
+            alert('Login failed: ' + error.message);
+        }
     };
 
     return (
