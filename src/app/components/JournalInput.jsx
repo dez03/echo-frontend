@@ -2,36 +2,42 @@
 import { useState } from "react";
 import React from "react";
 import { handleAnonymousSubmit } from '@/lib/routes';
+import SignupModal from "../components/SignupModal.jsx"
+import Image from 'next/image';
 
 export default function JournalInput() {
   const [prompt, setPrompt] = useState("");
-  const [selectedMood, setSelectedMood] = useState(null);
- 
-  const handleMoodSelect = (moodValue) => {
-    console.log('Mood selected:', moodValue);
-    setSelectedMood(moodValue);
+  const [selectedEmotions, setSelectedEmotions] = useState(null);
+  const [reflection, setReflection] = useState(null);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  
+  const handleEmotionsSelect = (emotionsValue) => {
+    console.log('Emotion selected:', emotionsValue);
+    setSelectedEmotions(emotionsValue);
   };
   
   const handleSubmit = async () => {
     if (!prompt.trim()) return;
 
-    if (selectedMood === null) {
-      alert("Please select your mood by clicking an icon.");
+    if (selectedEmotions === null) {
+      alert("Please select your emotion by clicking an icon.");
       return;
     }
 
     try {
-      const reflection = await handleAnonymousSubmit(prompt, selectedMood);
+      const reflection = await handleAnonymousSubmit(prompt, selectedEmotions);
       console.log("Received reflection:", reflection);
-      alert(`"${prompt}", mood: {${selectedMood}}`);
-      // TODO: Display reflection in UI or store it
+      setReflection(reflection || "This is a placeholder reflection."); 
+      //shows sign up modal after submitting the prompt
+      setTimeout(() => {
+        setShowSignupModal(true);
+      }, 3000);
     } catch (err) {
       console.error("Error submitting anonymous entry:", err);
       alert("Sorry, there was an error submitting your entry. Please try again.");
     }
 
-    setPrompt(""); // Clear input after submit
-    setSelectedMood(null); // Optional: Reset mood selection
+    
   };
 
   return (
@@ -41,8 +47,8 @@ export default function JournalInput() {
         <div className="absolute top-3 right-5 flex items-center gap-6">
 
           {/* Happy icon */}
-          <div className="w-8 h-8 cursor-pointer" onClick={() => handleMoodSelect(1)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedMood === 1 ? "text-blue-500" : "text-gray-500"}`}>
+          <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(1)}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedEmotions === 1 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#228B22" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#228B22" />
               <circle cx="15" cy="9" r="1" fill="#228B22" />
@@ -51,8 +57,8 @@ export default function JournalInput() {
           </div>
 
           {/* Neutral icon */}
-          <div className="w-8 h-8 cursor-pointer" onClick={() => handleMoodSelect(2)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedMood === 2 ? "text-blue-500" : "text-gray-500"}`}>
+          <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(2)}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedEmotions === 2 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#FFBF00" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#FFBF00" />
               <circle cx="15" cy="9" r="1" fill="#FFBF00" />
@@ -61,8 +67,8 @@ export default function JournalInput() {
           </div>
 
           {/* Sad icon */}
-          <div className="w-8 h-8 cursor-pointer" onClick={() => handleMoodSelect(3)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedMood === 3 ? "text-blue-500" : "text-gray-500"}`}>
+          <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(3)}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedEmotions === 3 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#FF0000" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#FF0000" />
               <circle cx="15" cy="9" r="1" fill="#FF0000" />
@@ -108,7 +114,17 @@ export default function JournalInput() {
               />
             </svg>
           </button>
+                
         </div>
+        {reflection && (
+          <div className="mt-6 p-4 bg-white rounded-lg shadow text-sm text-gray-700 animate-fade-in">
+            <p className="italic">"{reflection}"</p>
+          </div>
+        )}
+
+        {/* Show the SignupPromptModal if the modal state is true */}
+      {/* {showSignupModal && <SignupModal onClose={() => setShowSignupModal(false)} />} */}
+
       </div>
     </>
   );
