@@ -1,7 +1,7 @@
 import JournalInput from "./components/JournalInput";
 import "./globals.css";
 import Image from "next/image";
-import Logo from "./assets/EchoLogo.png";
+import Logo from "./assets/EchoJournalLogo.png";
 import PromptRotator from "./components/PromptRotator";
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
     <main
       className="flex flex-col items-center justify-center min-h-screen p-6"
       style={{
-        background: "radial-gradient(circle at center, #1E40AF, #000000)",
+        background: "linear-gradient(to right, #39085e, #9198e5)",
       }}
     >
       <div>
@@ -22,14 +22,8 @@ export default function Home() {
           height={200} // adjust as needed
         />
       </div>
-      <div className="absolute inset-0 -z-10">
-        <div className="bg-gradient-to-br from-purple-800 via-indigo-500 to-blue-400 w-full h-full opacity-90"></div>
-        <div className="absolute inset-0 bg-gradient-radial from-transparent via-purple-300 to-transparent opacity-50"></div>
-        <div className="absolute inset-0 bg-noise-pattern opacity-10"></div>
-      </div>
-      <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-300 text-transparent bg-clip-text">
-        Echo Journal
-      </h1>
+
+      <h1 className="text-3xl font-light text-amber-800 mb-6">Echo Journal</h1>
       <PromptRotator />
 
       <div className="w-1/2 flex flex-col items-center">
@@ -38,3 +32,4 @@ export default function Home() {
     </main>
   );
 }
+
