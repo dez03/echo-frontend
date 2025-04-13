@@ -41,23 +41,23 @@ export default function LoginPage() {
 
   return (
     <main
-      className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-b from-gray-900 to-black text-white"
+      className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-br from-blue-950 via-indigo-900 to-purple-900 text-white"
     >
       <h1 className="text-3xl font-bold mb-6">Login to Echo</h1>
       <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-sm space-y-4">
         <input
           type="email"
           placeholder="Email"
-          className="p-3 rounded bg-gray-800 text-white border border-gray-600"
+          className="p-3 rounded bg-slate-800 text-white border border-slate-700"
         />
         <input
           type="password"
           placeholder="Password"
-          className="p-3 rounded bg-gray-800 text-white border border-gray-600"
+          className="p-3 rounded bg-slate-800 text-white border border-slate-700"
         />
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-gradient-to-r from-purple-500 to-indigo-500 hover:opacity-90 text-white font-bold py-2 px-4 rounded transition"
         >
           Log In
         </button>

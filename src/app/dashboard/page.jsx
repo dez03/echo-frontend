@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../utils/firebase"; 
+import MoodTrendChart from "../components/dashboard/MoodTrendsChart";
 import EmotionalPieChart from "../components/dashboard/EmotionalPieChart";
 import { postUserLogin } from "../../lib/routes";
 
@@ -128,14 +129,16 @@ export default function Dashboard() {
 
         <div className="grid gap-6 pt-6 md:grid-cols-2 lg:grid-cols-2">
           {/* Mood Trends Line Graph */}
-          <div className="bg-blue-950 shadow-sm rounded-lg p-4 h-64">
+
+          <div className="flex flex-col justify-center h-auto bg-blue-950 shadow-sm rounded-lg p-4 h-64">
             <h2 className="text-xl font-semibold text-white mb-1">Mood Trends</h2>
             <p className="text-slate-400 mb-4">Your emotional journey over the past week</p>
-
+              <MoodTrendChart />
+            
           </div>
 
           {/* Emotional Breakdown Pie Chart*/}
-          <div className="bg-blue-950 w-full  shadow-sm rounded-lg p-4 flex flex-col justify-center  h-auto">
+          <div className="bg-blue-950 w-full shadow-sm rounded-lg p-4 flex flex-col justify-center h-auto">
             <h1 className="text-lg text-left font-semibold text-white">Emotional Breakdown</h1>
             <p className="text-left text-slate-400 mb-4">Distribution of your emotions this week</p>
             <EmotionalPieChart />
@@ -192,7 +195,11 @@ export default function Dashboard() {
           <div className="bg-blue-950 shadow-sm rounded-lg p-4 h-auto">
             <h2 className="text-xl font-semibold text-white mb-1">Weekly Reflection</h2>
             <p className="text-slate-400 mb-4">AI-generated reflection based on your last 7 entries</p>
-            <p className="text-slate-200">{weeklyReflection || "Unlock your personalized reflection after 1 week."}</p>
+            {journalDates.length >= 7 && weeklyReflection ? (
+              <p className="text-slate-200">{weeklyReflection}</p>
+            ) : (
+              <p className="text-slate-400">Write at least 7 journal entries to unlock your weekly reflection.</p>
+            )}
           </div>
 
           <div className="bg-blue-950 shadow-sm rounded-lg p-4 h-auto">

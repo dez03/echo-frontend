@@ -48,8 +48,9 @@ export default function Sidebar() {
     router.push("/dashboard");
   };
 
-  const handleSignOut = () => {
-    signOut(auth);
+  const handleSignOut = async () => {
+    await signOut(auth);
+    router.push("/");
   };
 
   if (!isLoggedIn) return null;
@@ -61,7 +62,7 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`flex flex-col h-screen bg-gradient-to-b from-purple-800 to-indigo-900 text-white transition-all duration-300 ${
+      className={`flex flex-col bg-gradient-to-b from-purple-800 to-indigo-900 text-white transition-all duration-300 h-screen ${
         isCollapsed ? "w-16" : "w-64"
       }`}
     >
@@ -116,31 +117,12 @@ export default function Sidebar() {
           ))}
         </ul>
 
-        {!isCollapsed && (
-          <div className="mt-6">
-            <h2 className="text-sm text-slate-300 uppercase mb-2">
-              Recent Entries
-            </h2>
-            {journalEntries.length > 0 ? (
-              <ul className="space-y-2">
-                {journalEntries.map((entry, index) => (
-                  <li key={index} className="text-slate-300 text-sm">
-                    <div className="font-semibold">{entry.date}</div>
-                    <div className="truncate">{entry.text}</div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-slate-400 text-sm">No Recent Entries</p>
-            )}
-          </div>
-        )}
       </nav>
 
       <div className="p-4 border-t border-indigo-700">
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 flex items-center justify-center text-white font-semibold">
-            N
+            D
           </div>
           {!isCollapsed && (
             <div>
