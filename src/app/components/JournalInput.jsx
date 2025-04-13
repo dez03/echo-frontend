@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import React from "react";
-import SignupModal from "../components/SignupModal.jsx"
+// import SignupModal from "../components/SignupModal.jsx"
 import { auth } from '../../utils/firebase.js'; // Assuming you have firebase authentication set up
 import { submitJournalEntry } from "@/lib/routes";
 
@@ -63,7 +63,7 @@ export default function JournalInput() {
 
           {/* Happy icon */}
           <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(1)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full transition duration-200 ${selectedEmotions === 1 ? "text-blue-500" : "text-gray-500"}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform  ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full  duration-200 ${selectedEmotions === 1 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#228B22" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#228B22" />
               <circle cx="15" cy="9" r="1" fill="#228B22" />

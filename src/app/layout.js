@@ -1,7 +1,5 @@
 "use client";
 import "./globals.css";
-import { Inter } from "next/font/google";
-
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/utils/firebase";

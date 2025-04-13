@@ -3,7 +3,7 @@ import JournalInput from "../components/JournalInput.jsx";
 
 import Image from "next/image";
 import Logo from "../assets/EchoLogo.png";
-import PromptRotator from "../components/PromptRotator";
+import PromptRotator from "../components/PromptRotator.jsx";
 import { useState } from "react";
 
 export default function Home() {

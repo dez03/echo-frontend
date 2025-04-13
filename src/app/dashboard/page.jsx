@@ -130,7 +130,7 @@ export default function Dashboard() {
         <div className="grid gap-6 pt-6 md:grid-cols-2 lg:grid-cols-2">
           {/* Mood Trends Line Graph */}
 
-          <div className="flex flex-col justify-center h-auto bg-blue-950 shadow-sm rounded-lg p-4 h-64">
+          <div className="flex flex-col justify-center bg-blue-950 shadow-sm rounded-lg p-4 h-64">
             <h2 className="text-xl font-semibold text-white mb-1">Mood Trends</h2>
             <p className="text-slate-400 mb-4">Your emotional journey over the past week</p>
               <MoodTrendChart />

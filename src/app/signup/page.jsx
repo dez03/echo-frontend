@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../../utils/firebase';
 import { updateProfile } from 'firebase/auth';
-import { handleFirstUpload, postUserAuth } from '../../lib/routes';
+import { handleFirstUpload, postUserAuth } from '../../lib/routes.js';
 import { useRouter } from 'next/navigation';
 
 export default function SignUpPage() {
