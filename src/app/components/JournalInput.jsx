@@ -73,7 +73,7 @@ export default function JournalInput() {
 
           {/* Neutral icon */}
           <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(2)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full transition duration-200 ${selectedEmotions === 2 ? "text-blue-500" : "text-gray-500"}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform  ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full  duration-200 ${selectedEmotions === 2 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#FFBF00" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#FFBF00" />
               <circle cx="15" cy="9" r="1" fill="#FFBF00" />
@@ -83,7 +83,7 @@ export default function JournalInput() {
 
           {/* Sad icon */}
           <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(3)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full transition duration-200 ${selectedEmotions === 3 ? "text-blue-500" : "text-gray-500"}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full  duration-200 ${selectedEmotions === 3 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#FF0000" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#FF0000" />
               <circle cx="15" cy="9" r="1" fill="#FF0000" />

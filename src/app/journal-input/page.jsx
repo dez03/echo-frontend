@@ -30,7 +30,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-purple-300 to-transparent opacity-50"></div>
         <div className="absolute inset-0 bg-noise-pattern opacity-10"></div>
       </div>
-      <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-300 text-transparent bg-clip-text">
+      <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
         Echo Journal
       </h1>
       <PromptRotator />

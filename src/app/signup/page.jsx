@@ -54,7 +54,7 @@ export default function SignUpPage() {
         });
         }
       
-          router.push('/dashboard');
+          router.push('/');
         } catch (e) {
           if (e.code === "auth/email-already-in-use") {
             alert("An account with this email already exists. Please log in instead.");

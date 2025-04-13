@@ -9,23 +9,28 @@ export const ROUTES = {
 export async function postUserAuth(uid, name) {
   console.log("Calling postUserAuth with:", uid, name);
   try {
-    const res = await fetch(ROUTES.USER_AUTH, { // test locally first
+    const res = await fetch(ROUTES.USER_AUTH, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ uid, name }), // ← match OG key
+      body: JSON.stringify({ user_id: uid, name }), // Changed uid to user_id
     });
 
-    if (!res.ok) throw new Error("Failed to authenticate user");
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("API Error:", res.status, errorText);
+      throw new Error(`Failed to authenticate user: ${res.status}`);
+    }
 
     const data = await res.json();
     console.log("User Auth Response:", data);
     return data;
   } catch (error) {
     console.error('Error:', error);
+    throw error; // Re-throw so caller can handle it
   }
-};
+}
 
 export async function postUserLogin(uid) {
   console.log("POSTING TO: /api/user_login", { uid });
