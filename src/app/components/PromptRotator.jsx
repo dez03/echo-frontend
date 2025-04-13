@@ -31,7 +31,7 @@ export default function PromptRotator() {
   }, [])
 
   return (
-    <div className="mb-2 rounded-lg text-lg transition-all h-[3rem] flex items-center justify-center overflow-hidden w-full">
+    <div className="mb-2 rounded-lg text-lg text-[#FAF9F6] transition-all h-[3rem] flex items-center justify-center overflow-hidden w-full">
       <div
         key={index}
         className={`transition-all duration-300 ease-in-out transform italic ${

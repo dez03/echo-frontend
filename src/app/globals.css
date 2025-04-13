@@ -1,2 +1,17 @@
 @import "tailwindcss";
 
+@keyframes bounceSmooth {
+   0%, 100% {
+     transform: translateY(0);
+   }
+   15% {
+    transform: translateY(-3px);
+  }
+   50% {
+     transform: translateY(-15px);
+   }
+ }
+ 
+ .animate-bounce-smooth {
+   animation: bounceSmooth 1.2s ease-in-out;
+ }

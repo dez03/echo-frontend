@@ -1,18 +1,36 @@
-// app/layout.js
+"use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/utils/firebase";
+import TooJournalBubble from "./components/TooJournalBubble";
+import Sidebar from "./components/Sidebar";
 
-export const metadata = {
-  title: "Echo Journal",
-  description: "Reflective journaling made simple.",
-};
+export default function Layout({ children }) {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
 
-export default function RootLayout({ children }) {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUserLoggedIn(!!user);
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <html>
+      <body>
+      {userLoggedIn ? (
+        <div className="flex">
+          <Sidebar />
+          <main className="flex-1">{children}</main>
+        </div>
+      ) : (
+        children
+      )}
+      {userLoggedIn && <TooJournalBubble className="bg-[#FFEA00]" />}
+      </body>
+      </html>
   );
 }

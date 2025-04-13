@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 import React from "react";
-import { handleAnonymousSubmit } from '@/lib/routes';
 import SignupModal from "../components/SignupModal.jsx"
-import Image from 'next/image';
+import { auth } from '../../utils/firebase.js'; // Assuming you have firebase authentication set up
+import { submitJournalEntry } from "@/lib/routes";
 
 export default function JournalInput() {
   const [prompt, setPrompt] = useState("");
@@ -18,37 +18,39 @@ export default function JournalInput() {
   
   const handleSubmit = async () => {
     if (!prompt.trim()) return;
-  
+
     if (selectedEmotions === null) {
       alert("Please select your emotion by clicking an icon.");
       return;
     }
-  
+
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please log in to submit your journal entry.");
+      return;
+    }
+
     try {
-      const reflectionResponse = await handleAnonymousSubmit(prompt, selectedEmotions);
+      const reflectionResponse = await submitJournalEntry(user.uid, prompt, selectedEmotions);
       console.log("Received reflection:", reflectionResponse);
-      
-      // Properly format the reflection before setting it in state
+
       if (typeof reflectionResponse === 'object' && reflectionResponse !== null) {
-        setReflection(reflectionResponse.reflection); // ✅ extract only the reflection string
+        setReflection(reflectionResponse.reflection);
       } else {
         setReflection("Unable to load reflection.");
       }
-      
-      // save to localStorage immediately after recieving reflection
+
       localStorage.setItem("journalData", JSON.stringify({
         prompt,
         reflection,
         selectedEmotions
       }));
 
-
-      // Shows sign up modal after submitting the prompt
       setTimeout(() => {
         setShowSignupModal(true);
-      }, 5500);
+      }, 7500);
     } catch (err) {
-      console.error("Error submitting anonymous entry:", err);
+      console.error("Error submitting journal entry:", err);
       alert("Sorry, there was an error submitting your entry. Please try again.");
     }
   };
@@ -104,20 +106,20 @@ export default function JournalInput() {
                 handleSubmit();
               }
             }}
-            className="w-full min-h-[3rem] max-h-96 p-4 pr-12 border border-gray-300 rounded-lg focus:outline-none overflow-y-hidden resize-none placeholder:text-slate-400 placeholder:font-light"
+            className="w-full min-h-[3rem] max-h-96 p-4 pr-12 border border-gray-300 rounded-lg focus:outline-none overflow-y-hidden resize-none text-slate-300 placeholder:text-slate-400 placeholder:font-light"
             placeholder="Write your thoughts here..."
             rows={1}
           />
           <button
             onClick={handleSubmit}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#687387] hover:bg-[#535c6c] text-white rounded-full p-2"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#FAF9F6] hover:bg-[#535c6c] text-white rounded-full p-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="2"
-              stroke="currentColor"
+              stroke="#000000"
               className="w-5 h-5"
             >
               <path
@@ -137,7 +139,7 @@ export default function JournalInput() {
 
         
         {/* Show the SignupPromptModal if the modal state is true */}
-        {showSignupModal && <SignupModal onClose={() => setShowSignupModal(false)} />}
+        {/* {showSignupModal && <SignupModal onClose={() => setShowSignupModal(false)} />} */}
       </div>
     </>
   );

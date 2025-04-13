@@ -1,76 +1,87 @@
 export const ROUTES = {
-  ANONYMOUS_REFLECTION: 'https://echo-be.vercel.app/api/anonymous',
-  FIRST_UPLOAD: 'http://localhost:8000/api/anonymous',
+  USER_AUTH: 'https://echo-be.vercel.app/api/user_auth',
+  USER_LOGIN: 'https://echo-be.vercel.app/api/user_login',
+  JOURNAL_UPLOAD: 'https://echo-be.vercel.app/api/journal/upload',
+  JOURNAL_LOAD: 'https://echo-be.vercel.app/api/journal/load',
 };
 
 
-// POST Request to submit an anonymous reflection
-// This function handles the submission of an anonymous reflection entry
-// It sends the entry and mood to the server and handles the response
-const handleAnonymousSubmit = async (prompt, emotions) => {
+export async function postUserAuth(uid, name) {
+  console.log("Calling postUserAuth with:", uid, name);
   try {
-    const res = await fetch(ROUTES.ANONYMOUS_REFLECTION, {
-      method: 'POST',
+    const res = await fetch(ROUTES.USER_AUTH, { // test locally first
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        prompt,
-        emotions,
-      }),
+      body: JSON.stringify({ uid, name }), // ← match OG key
     });
+
+    if (!res.ok) throw new Error("Failed to authenticate user");
 
     const data = await res.json();
-
-    if (data.status === 'success') {
-      // ✅ Server responded with reflection
-      return data.reflection; // show reflection on screen
-
-      // Now hold onto this data. If user signs up, send it to first_upload route
-    }
-
-// FAKE USE ABOVE WHEN SERVER IS REAL
-    // const fakeReflections = [
-    //   "You're on the right path — keep going.",
-    //   "There's more strength in you than you know.",
-    //   "It's okay to slow down and breathe.",
-    // ];
-    
-    // const simulatedResponse = {
-    //   status: 'success',
-    //   reflection: fakeReflections[Math.floor(Math.random() * fakeReflections.length)],
-    // };
-    
-    // // Simulate delay
-    // await new Promise((res) => setTimeout(res, 1000));
-    
-    // setReflection(simulatedResponse.reflection);
-
+    console.log("User Auth Response:", data);
+    return data;
   } catch (error) {
-    console.error('Error submitting anonymous prompt:', error);
+    console.error('Error:', error);
   }
 };
 
+export async function postUserLogin(uid) {
+  console.log("POSTING TO: /api/user_login", { uid });
 
-// POST Request to save a entry and reflection after user signup
-const handleFirstUpload = async (user, prompt, emotions, reflection) => {
+  const response = await fetch(ROUTES.USER_LOGIN, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id: uid }),
+  });
+
+  if (!response.ok) throw new Error("Failed to login user");
+  return await response.json();
+}
+
+export async function postJournalUpload(uid, entry, mood) {
+  const response = await fetch(ROUTES.JOURNAL_UPLOAD, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+      user_id: uid, 
+      prompt: entry, 
+      emotions: mood
+    }),
+  });
+
+  if (!response.ok) throw new Error("Failed to submit journal entry");
+  return await response.json();
+}
+
+export async function postJournalLoad(uid, date) {
+  const formattedDate = new Date(date).toISOString().split('T')[0]; // Line 61
+  const response = await fetch(ROUTES.JOURNAL_LOAD, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+      user_id: uid, 
+      date: formattedDate // Use formattedDate here
+    }),
+  });
+
+  if (!response.ok) throw new Error("Failed to load journal entry");
+  return await response.json();
+}
+
+export const submitJournalEntry = async (uid, prompt, emotions) => {
   try {
-    await fetch(ROUTES.FIRST_UPLOAD, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: user.displayName,
-        uid: user.uid,
-        prompt,
-        emotions,
-        reflection,
-      }),
-    });
+    const response = await postJournalUpload(uid, prompt, emotions);
+    return response;
   } catch (error) {
-    console.error('Error uploading first entry:', error);
+    console.error("Error submitting journal entry:", error);
+    return null;
   }
 };
-
-export { handleAnonymousSubmit, handleFirstUpload };

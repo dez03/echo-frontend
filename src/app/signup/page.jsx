@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '@/utils/firebase';
+import { auth } from '../../utils/firebase';
 import { updateProfile } from 'firebase/auth';
-import { handleFirstUpload } from '@/lib/routes';
+import { handleFirstUpload, postUserAuth } from '../../lib/routes';
 import { useRouter } from 'next/navigation';
 
 export default function SignUpPage() {
@@ -31,26 +31,30 @@ export default function SignUpPage() {
         e.preventDefault();
         try {
           const { name, email, password } = formData;
-          const userCredential = await createUserWithEmailAndPassword(email, password);
+          const createdUser = await createUserWithEmailAndPassword(email, password);
+
+        if (createdUser?.user) {
+        await updateProfile(createdUser.user, { displayName: name });
+        await createdUser.user.reload();
+
+        await postUserAuth(createdUser.user.uid, name);
+
+        const updatedUser = createdUser.user;
+
+        const saved = JSON.parse(localStorage.getItem('preSignUpData'));
+        if (saved?.entry && saved?.emotions && saved?.reflection) {
+            await handleFirstUpload(updatedUser, saved.entry, saved.emotions, saved.reflection);
+            localStorage.removeItem('preSignUpData');
+        }
+
+        console.log('User Info:', {
+            name: updatedUser.displayName,
+            email: updatedUser.email,
+            uid: updatedUser.uid,
+        });
+        }
       
-          if (auth.currentUser) {
-            await updateProfile(auth.currentUser, { displayName: name });
-      
-            const saved = JSON.parse(localStorage.getItem('preSignUpData'));
-            if (saved?.entry && saved?.emotions && saved?.reflection) {
-              await handleFirstUpload(auth.currentUser, saved.entry, saved.emotions, saved.reflection);
-              localStorage.removeItem('preSignUpData');
-            }
-      
-            console.log('User Info:', {
-              name: auth.currentUser.displayName,
-              email: auth.currentUser.email,
-              uid: auth.currentUser.uid,
-            });
-          }
-      
-          console.log('User created:', userCredential.user);
-          router.push('/');
+          router.push('/dashboard');
         } catch (e) {
           if (e.code === "auth/email-already-in-use") {
             alert("An account with this email already exists. Please log in instead.");
@@ -111,16 +115,18 @@ export default function SignUpPage() {
                             required
                         />
                     </div>
-                    <button
-                        type="submit"
-                        className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                        Sign Up
-                    </button>
+
+                        <button
+                            type="submit"
+                            className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        >
+                            Sign Up
+                        </button>
+                
                 </form>
                 <p className="text-sm text-center text-gray-600">
                     Already have an account?{' '}
-                    <a href="/login" className="text-blue-500 hover:underline">
+                    <a href="/" className="text-blue-500 hover:underline">
                         Log in
                     </a>
                 </p>
