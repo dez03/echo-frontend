@@ -1,5 +1,5 @@
 export const ROUTES = {
-  ANONYMOUS_REFLECTION: 'echo-be.vercel.app/api/anonymous',
+  ANONYMOUS_REFLECTION: 'https://echo-be.vercel.app/api/anonymous',
   FIRST_UPLOAD: 'http://localhost:8000/api/anonymous',
 };
 
@@ -11,7 +11,7 @@ const handleAnonymousSubmit = async (prompt, emotions) => {
   try {
     const res = await fetch(ROUTES.ANONYMOUS_REFLECTION, {
       method: 'POST',
-      params: {
+      headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -24,7 +24,7 @@ const handleAnonymousSubmit = async (prompt, emotions) => {
 
     if (data.status === 'success') {
       // ✅ Server responded with reflection
-      setReflection(data.reflection); // show reflection on screen
+      return data.reflection; // show reflection on screen
 
       // Now hold onto this data. If user signs up, send it to first_upload route
     }

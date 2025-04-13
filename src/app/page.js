@@ -1,11 +1,14 @@
+"use client";
 import JournalInput from "./components/JournalInput";
 import "./globals.css";
 import Image from "next/image";
 import Logo from "./assets/EchoJournalLogo.png";
 import PromptRotator from "./components/PromptRotator";
+import { useState } from "react";
 
 export default function Home() {
   const isAuthenticated = false; // replace with real auth later
+  const [reflection, setReflection] = useState(null);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen p-6">

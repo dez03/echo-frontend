@@ -18,26 +18,39 @@ export default function JournalInput() {
   
   const handleSubmit = async () => {
     if (!prompt.trim()) return;
-
+  
     if (selectedEmotions === null) {
       alert("Please select your emotion by clicking an icon.");
       return;
     }
-
+  
     try {
-      const reflection = await handleAnonymousSubmit(prompt, selectedEmotions);
-      console.log("Received reflection:", reflection);
-      setReflection(reflection || "This is a placeholder reflection."); 
-      //shows sign up modal after submitting the prompt
+      const reflectionResponse = await handleAnonymousSubmit(prompt, selectedEmotions);
+      console.log("Received reflection:", reflectionResponse);
+      
+      // Properly format the reflection before setting it in state
+      if (typeof reflectionResponse === 'object' && reflectionResponse !== null) {
+        setReflection(reflectionResponse.reflection); // ✅ extract only the reflection string
+      } else {
+        setReflection("Unable to load reflection.");
+      }
+      
+      // save to localStorage immediately after recieving reflection
+      localStorage.setItem("journalData", JSON.stringify({
+        prompt,
+        reflection,
+        selectedEmotions
+      }));
+
+
+      // Shows sign up modal after submitting the prompt
       setTimeout(() => {
         setShowSignupModal(true);
-      }, 3000);
+      }, 5500);
     } catch (err) {
       console.error("Error submitting anonymous entry:", err);
       alert("Sorry, there was an error submitting your entry. Please try again.");
     }
-
-    
   };
 
   return (
@@ -122,9 +135,9 @@ export default function JournalInput() {
           </div>
         )}
 
+        
         {/* Show the SignupPromptModal if the modal state is true */}
-      {/* {showSignupModal && <SignupModal onClose={() => setShowSignupModal(false)} />} */}
-
+        {showSignupModal && <SignupModal onClose={() => setShowSignupModal(false)} />}
       </div>
     </>
   );
