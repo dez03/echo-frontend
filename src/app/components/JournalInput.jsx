@@ -55,13 +55,13 @@ export default function JournalInput() {
 
   return (
     <>
-      <div className="w-full p-4 py-8 rounded-lg shadow-lg relative flex flex-col gap-4">
+      <div className="w-full p-4 py-8 rounded-lg shadow-lg relative flex flex-col gap-4 hover:ring-2 hover:ring-white/30">
         {/* Mood selection icons - now positioned at the top right with proper vertical alignment */}
         <div className="absolute top-3 right-5 flex items-center gap-6">
 
           {/* Happy icon */}
           <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(1)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedEmotions === 1 ? "text-blue-500" : "text-gray-500"}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full transition duration-200 ${selectedEmotions === 1 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#228B22" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#228B22" />
               <circle cx="15" cy="9" r="1" fill="#228B22" />
@@ -71,7 +71,7 @@ export default function JournalInput() {
 
           {/* Neutral icon */}
           <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(2)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedEmotions === 2 ? "text-blue-500" : "text-gray-500"}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full transition duration-200 ${selectedEmotions === 2 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#FFBF00" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#FFBF00" />
               <circle cx="15" cy="9" r="1" fill="#FFBF00" />
@@ -81,7 +81,7 @@ export default function JournalInput() {
 
           {/* Sad icon */}
           <div className="w-8 h-8 cursor-pointer" onClick={() => handleEmotionsSelect(3)}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out ${selectedEmotions === 3 ? "text-blue-500" : "text-gray-500"}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" className={`w-full h-full hover:scale-110 transition-transform duration-150 ease-in-out hover:ring-2 hover:ring-offset-2 hover:ring-#FFBF00 rounded-full transition duration-200 ${selectedEmotions === 3 ? "text-blue-500" : "text-gray-500"}`}>
               <circle cx="12" cy="12" r="10" stroke="#FF0000" strokeWidth="1.5" fill="none" />
               <circle cx="9" cy="9" r="1" fill="#FF0000" />
               <circle cx="15" cy="9" r="1" fill="#FF0000" />
@@ -104,7 +104,7 @@ export default function JournalInput() {
                 handleSubmit();
               }
             }}
-            className="w-full min-h-[3rem] max-h-96 p-4 pr-12 border border-gray-300 rounded-lg focus:outline-none overflow-y-hidden resize-none"
+            className="w-full min-h-[3rem] max-h-96 p-4 pr-12 border border-gray-300 rounded-lg focus:outline-none overflow-y-hidden resize-none placeholder:text-slate-400 placeholder:font-light"
             placeholder="Write your thoughts here..."
             rows={1}
           />
