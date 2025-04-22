@@ -57,6 +57,8 @@ export default function Sidebar() {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", onClick: handleDashboardClick },
+    { icon: Calendar, label: "Calendar", href: "/calendar" },
+    { icon: Settings, label: "Settings", href: "/settings" }, 
     { icon: LogOut, label: "Sign Out", onClick: handleSignOut, className: "mt-auto" },
   ];
 

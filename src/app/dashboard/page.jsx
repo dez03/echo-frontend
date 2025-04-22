@@ -9,7 +9,7 @@ import { postUserLogin } from "../../lib/routes";
 export default function Dashboard() {
   const [userName, setUserName] = useState("")
   const [streak, setStreak] = useState("")
-  const [currentStreak, setCurrentStreak] = useState(0);
+  const [currentStreak, setCurrentStreak] = useState(3);
   const [longestStreak, setLongestStreak] = useState(0);
   const [journalDates, setJournalDates] = useState([]);
   const [recentYS, setRecentYS] = useState([]);

@@ -22,7 +22,7 @@ export async function postUserAuth(uid, name) {
       console.error("API Error:", res.status, errorText);
       throw new Error(`Failed to authenticate user: ${res.status}`);
     }
-
+``
     const data = await res.json();
     console.log("User Auth Response:", data);
     return data;
