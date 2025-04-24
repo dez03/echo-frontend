@@ -15,7 +15,6 @@ export default function LoginPage() {
   const isAuthenticated = false; // replace with real auth later
   const [reflection, setReflection] = useState(null);
 
-
   // handle submission
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -35,7 +34,6 @@ export default function LoginPage() {
     }
   }
 };
-
 
   return (
     <main
@@ -60,7 +58,7 @@ export default function LoginPage() {
           Log In
         </button>
         <p className="text-center text-sm">
-          Don't have an account?
+        Don&apos;t have an account?
           <a href="/signup" className="text-blue-400 underline">
             Sign up
           </a>
