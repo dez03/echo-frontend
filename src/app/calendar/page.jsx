@@ -11,6 +11,12 @@ export default function CalendarPage() {
   return (
     <div>
       <Calendar onChange={onChange} value={value} />
+      <div>
+        <h1>Selected Date:</h1>
+      </div>
     </div>
   )
 }
+
+
+//comment to push
