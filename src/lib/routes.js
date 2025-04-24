@@ -6,6 +6,17 @@ export const ROUTES = {
 };
 
 
+export const handleFirstUpload = async (uid, entry, mood) => {
+  try {
+    const response = await postJournalUpload(uid, entry, mood);
+    console.log("First journal entry uploaded:", response);
+    return response;
+  } catch (error) {
+    console.error("Error in handleFirstUpload:", error);
+    return null;
+  }
+};
+
 export async function postUserAuth(uid, name) {
   console.log("Calling postUserAuth with:", uid, name);
   try {
